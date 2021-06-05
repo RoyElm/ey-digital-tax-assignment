@@ -1,0 +1,9 @@
+.CurrencyExchangeRaw .positive{
+	color: green;
+}
+.CurrencyExchangeRaw .negative{
+	color: red;
+}
+.CurrencyExchangeRaw {
+    text-align: center;
+}
