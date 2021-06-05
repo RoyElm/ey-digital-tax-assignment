@@ -7,12 +7,13 @@ function CurrencyExchangeRaw(props: MarketCurrencyTableModel): JSX.Element {
     const [positive, setPositive] = useState<boolean>(true);
     const [dailyChange, setDailyChange] = useState<string>(props.dailyChange);
 
+    //setting the local state if the daily change were negative and switched the symbol '-' to the left
     useEffect(() => {
         if (dailyChange.includes("-")) {
             setPositive(false)
             setDailyChange(`-${dailyChange.slice(0, -1)}`);
         };
-    },[])
+    }, [])
 
     return (
         <tr className="CurrencyExchangeRaw">

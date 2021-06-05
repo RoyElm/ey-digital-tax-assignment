@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { MarketCurrencyTableModel } from "../../../Models/marketCurrencyTable.model";
 import { getStarterTableAsync } from "../../../Services/currencyExchange.service";
+import { errorsService } from "../../../Services/GlobalErrorsService";
 import CurrencyExchangeRaw from "../CurrencyExchangeRaw/CurrencyExchangeRaw";
 import "./CurrencyExchangeTable.css";
 
 function CurrencyExchangeTable(): JSX.Element {
 
     const [starter, setStarter] = useState<MarketCurrencyTableModel[]>([]);
+
+    //Getting daily exchange rates from backend using service named getStarterTableAsync;
     useEffect(() => {
         (async () => {
             try {
                 const starter = await getStarterTableAsync();
                 setStarter(starter);
             } catch (error) {
-                alert(error.message);
+                alert(errorsService.getError(error));
             }
         })();
     })

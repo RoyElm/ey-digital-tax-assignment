@@ -5,6 +5,7 @@ import { formStyle } from "../../../Services/GlobalStylingMaker";
 import { getForeignExchangeAsync, getOptionsAsync, getStatesAsync } from "../../../Services/currencyExchange.service";
 import { foreignExchangeModel, foreignExchangeRatesModel } from "../../../Models/foreignExchange.model";
 import { useForm } from "react-hook-form";
+import { errorsService } from "../../../Services/GlobalErrorsService";
 
 interface CurrencyExchangeFormProps {
     info: (foreignExchangeCurrency: foreignExchangeRatesModel[], desireForeignExchange: foreignExchangeModel) => void;
@@ -19,8 +20,10 @@ function CurrencyExchangeForm(props: CurrencyExchangeFormProps): JSX.Element {
     const [selectedCurrency, setSelectedCurrency] = useState<string>('');
     const [currencyStates, setCurrencyStates] = useState<string[]>([]);
 
+    //setting form handlers using extend library named react-hook-form;
     const { register, handleSubmit, formState: { errors } } = useForm<foreignExchangeModel>();
 
+    //Material Ui props;
     const MenuProps = {
         PaperProps: {
             style: {
@@ -29,16 +32,22 @@ function CurrencyExchangeForm(props: CurrencyExchangeFormProps): JSX.Element {
             },
         },
     };
-    
+
+    //getting currency options and states from backend using services named getOptionsAsync and getStatesAsync and setting local states;
     useEffect(() => {
         (async () => {
-            const currencyOptions = await getOptionsAsync();
-            const currencyStates = await getStatesAsync();
-            setCurrencyOptions(currencyOptions);
-            setCurrencyStates(currencyStates);
+            try {
+                const currencyOptions = await getOptionsAsync();
+                const currencyStates = await getStatesAsync();
+                setCurrencyOptions(currencyOptions);
+                setCurrencyStates(currencyStates);
+            } catch (error) {
+                console.log(errorsService.getError(error));
+            }
         })();
     }, [])
 
+    //handling currencies changes and blocking it when more then 6 currencies has been click;
     const handleChangeCurrencies = (event: React.ChangeEvent<{ value: unknown }>) => {
         const targets = event.target.value as string[];
         setSelectedOptions(targets);
@@ -49,16 +58,18 @@ function CurrencyExchangeForm(props: CurrencyExchangeFormProps): JSX.Element {
         };
     };
 
+    //handling changed desire currency we want to exchange.
     const handleChangeChosenCurrency = (event: React.ChangeEvent<{ value: unknown }>) => {
         setSelectedCurrency(event.target.value as string);
     };
 
+    //sending the form to backend and updating the parent states about the changes.
     async function send(foreignExchange: foreignExchangeModel) {
         try {
             const foreignExchangeRates = await getForeignExchangeAsync(foreignExchange);
             props.info(foreignExchangeRates, foreignExchange);
         } catch (err) {
-            console.log(err.message);
+            console.log(errorsService.getError(err));
         }
     }
 

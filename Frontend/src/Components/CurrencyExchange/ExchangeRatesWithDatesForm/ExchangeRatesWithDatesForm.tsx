@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CurrencyExchangeByDatesModel } from "../../Models/currencyExchangeByDate.model";
 import { createExcelUrlDownload, getOptionsAsync } from "../../Services/currencyExchange.service";
+import { errorsService } from "../../Services/GlobalErrorsService";
 import { formStyle } from "../../Services/GlobalStylingMaker";
 import "./ExchangeRatesWithDatesForm.css";
 
@@ -12,15 +13,23 @@ function ExchangeRatesWithDatesForm(): JSX.Element {
     const classes = formStyle();
     const [currencyOptions, setCurrencyOptions] = useState<string[]>([]);
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+    //setting form handlers using extend library named react-hook-form;
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<CurrencyExchangeByDatesModel>();
 
+    //getting currency options from backend using service named getOptionsAsync;
     useEffect(() => {
         (async () => {
-            const currencyOptions = await getOptionsAsync();
-            setCurrencyOptions(currencyOptions);
+            try {
+                const currencyOptions = await getOptionsAsync();
+                setCurrencyOptions(currencyOptions);
+            } catch (error) {
+                alert(errorsService.getError(error));
+            }
         })();
     }, [])
 
+    //Material Ui Props.
     const MenuProps = {
         PaperProps: {
             style: {
@@ -30,6 +39,7 @@ function ExchangeRatesWithDatesForm(): JSX.Element {
         },
     };
 
+    //handling currencies changes and blocking it when more then 6 currencies has been click;
     const handleChangeCurrencies = (event: React.ChangeEvent<{ value: unknown }>) => {
         const targets = event.target.value as string[];
         setSelectedOptions(targets);
@@ -40,13 +50,14 @@ function ExchangeRatesWithDatesForm(): JSX.Element {
         };
     };
 
+    //downloading the desire currencies we want the data on.
     async function send(exchangeCurrencies: CurrencyExchangeByDatesModel) {
         try {
             const link = document.createElement('a');
             link.href = createExcelUrlDownload(exchangeCurrencies);
             link.click();
         } catch (err) {
-            console.log(err.message);
+            console.log(errorsService.getError(err));
         }
     }
 

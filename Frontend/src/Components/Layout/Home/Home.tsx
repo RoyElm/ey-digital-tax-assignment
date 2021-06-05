@@ -10,7 +10,8 @@ function Home(): JSX.Element {
 
     const [foreignExchangeCurrency, setForeignExchangeCurrency] = useState<foreignExchangeRatesModel[]>([])
     const [desireForeignExchange, setDesireForeignExchange] = useState<foreignExchangeModel>(null)
-
+    
+    //handle receive data from child component to update the local state.
     const handleSetInformation = (_foreignExchangeCurrency: foreignExchangeRatesModel[], _desireForeignExchange: foreignExchangeModel) => {
         setForeignExchangeCurrency(_foreignExchangeCurrency);
         setDesireForeignExchange(_desireForeignExchange);
