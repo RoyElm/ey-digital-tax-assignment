@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const cheerio = require("cheerio");
-const path = require("path");
-const { ExchangeCurrencyModel, foreignExchangeRateModel } = require("../models/exchange-currency.model");
+const { foreignExchangeRateModel } = require("../models/exchange-currency.model");
+
 const bankIsraelUrl = "https://www.boi.org.il/he/Markets/ExchangeRates/Pages/Default.aspx";
 
+//getting all currency options ;
 router.get("/options", async (request, response) => {
     try {
         axios.get(bankIsraelUrl).then(res => {
@@ -19,6 +20,7 @@ router.get("/options", async (request, response) => {
     }
 });
 
+//Getting daily exchange rates (opening page in Bank Israel Exchange Rates);
 router.get("/starter", async (request, response) => {
     try {
         axios.get(bankIsraelUrl)
@@ -59,6 +61,7 @@ router.get("/starter", async (request, response) => {
     }
 });
 
+//Convert currency to desired foreign currency rates
 router.post("/foreignExchange", async (request, response) => {
     try {
         const exchangeCurrencies = new foreignExchangeRateModel(request.body);
@@ -96,6 +99,7 @@ router.post("/foreignExchange", async (request, response) => {
     }
 });
 
+//getting all option select of states
 router.get("/states", async (request, response) => {
     try {
         axios.get(bankIsraelUrl)

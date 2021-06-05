@@ -1,11 +1,3 @@
-class ExchangeCurrencyModel {
-    constructor(exchangeCurrency) {
-        this.dateStart = getYearAndMonthAndDay(exchangeCurrency.dateStart);
-        this.dateEnd = getYearAndMonthAndDay(exchangeCurrency.dateEnd);
-        this.currencies = exchangeCurrency.currencies;
-    }
-}
-
 class foreignExchangeRateModel {
     constructor(exchangeCurrency) {
         this.date = getYearAndMonthAndDay(exchangeCurrency.date);
@@ -25,6 +17,5 @@ const getYearAndMonthAndDay = desireDate => {
 }
 
 module.exports = {
-    ExchangeCurrencyModel,
     foreignExchangeRateModel
 };
