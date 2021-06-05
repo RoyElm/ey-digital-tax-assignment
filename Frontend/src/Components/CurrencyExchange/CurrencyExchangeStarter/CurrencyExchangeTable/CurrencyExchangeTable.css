@@ -1,0 +1,15 @@
+.CurrencyExchangeTable {
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 10px 5px 5px grey;
+}
+.CurrencyExchangeTable > thead th {
+    text-decoration: underline 1px solid black;
+}
+
+.CurrencyExchangeTable > tbody td {
+    padding: 10px;
+}
+.currencyExchangeDiv > h3 {
+    text-align: right;
+}

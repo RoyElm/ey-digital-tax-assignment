@@ -1,0 +1,16 @@
+.Home {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.Home > * {
+    margin: 15px;
+}
+
+.Home > hr {
+    color: black;
+    
+    width: 80%;
+}

@@ -1,0 +1,20 @@
+
+.CurrencyExchangeForm > form{
+    padding: 2rem;
+	display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 10px 5px 5px grey;
+}
+
+.CurrencyExchangeForm > h2  {
+    text-align: right;
+}
+
+.CurrencyExchangeForm .MuiFormControl-root {
+    margin-top: 0.8rem;
+}
