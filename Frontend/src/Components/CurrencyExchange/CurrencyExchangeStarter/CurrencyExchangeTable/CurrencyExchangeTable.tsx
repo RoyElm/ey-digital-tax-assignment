@@ -19,7 +19,7 @@ function CurrencyExchangeTable(): JSX.Element {
                 alert(errorsService.getError(error));
             }
         })();
-    })
+    },[])
 
 
     return (
